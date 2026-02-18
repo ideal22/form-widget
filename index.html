@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Widget Dev Demo</title>
+
+  <!-- Намеренно добавляем конфликтующие стили — чтобы проверить изоляцию Shadow DOM -->
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive; /* должен НЕ применяться внутри виджета */
+      background: #f0f0f0;
+      padding: 40px;
+    }
+    * {
+      box-sizing: border-box;
+      color: red; /* должен НЕ применяться внутри виджета */
+    }
+    input {
+      border: 5px solid purple; /* должен НЕ применяться внутри виджета */
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Тест изоляции виджета</h1>
+  <p>Стили страницы (Comic Sans, красный текст) НЕ должны попадать в виджет.</p>
+
+  <!-- Сюда монтируется виджет -->
+  <div id="widget-1" style="max-width: 480px; margin: 20px 0;"></div>
+
+  <!-- Второй виджет с другим serviceId — можно несколько на одной странице -->
+  <div id="widget-2" style="max-width: 480px; margin: 20px 0;"></div>
+
+  <script type="module" src="/src/index.tsx"></script>
+  <script type="module">
+    // В dev режиме import из модуля
+    // В продакшене это будет: window.FormWidget.init(...)
+    import { init } from '/src/index.tsx'
+
+    init({
+      container: '#widget-1',
+      serviceId: 1,
+      lang: 'ru',
+      // В dev моде API нет, поэтому будет ошибка — это нормально
+      apiUrl: 'http://localhost:3001/api/applications',
+      onSuccess: (data) => {
+        console.log('✅ Заявка отправлена:', data)
+        alert('Заявка принята!')
+      },
+      onError: (err) => {
+        console.error('❌ Ошибка:', err)
+      },
+      meta: {
+        utm_source: 'demo',
+      }
+    })
+
+    init({
+      container: '#widget-2',
+      serviceId: 2,
+      lang: 'ru',
+      apiUrl: 'http://localhost:3001/api/applications',
+    })
+  </script>
+
+</body>
+</html>
