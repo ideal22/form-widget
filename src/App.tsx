@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
-import {
-  Box,
-  Button,
-  TextField,
-  Typography,
-  CircularProgress,
-  Alert,
-} from '@mui/material'
+import { useState } from 'react'
+import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import CircularProgress from '@mui/material/CircularProgress'
+import Alert from '@mui/material/Alert'
 import { WidgetConfig, FormData } from './types'
 
 interface AppProps {
@@ -15,18 +13,23 @@ interface AppProps {
 
 /**
  * App — главный компонент виджета.
- * 
+ *
  * 🔧 СЮДА ВСТАВЛЯЙ СВОЮ ГОТОВУЮ ФОРМУ/КАЛЬКУЛЯТОР
  * config.serviceId, config.lang, config.apiUrl — всё доступно через props
  */
 export const App: React.FC<AppProps> = ({ config }) => {
-  const [values, setValues] = useState({ name: '', phone: '', email: '', message: '' })
+  const [values, setValues] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    message: '',
+  })
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValues(prev => ({ ...prev, [e.target.name]: e.target.value }))
+    setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -131,7 +134,9 @@ export const App: React.FC<AppProps> = ({ config }) => {
         variant="contained"
         disabled={loading}
         fullWidth
-        startIcon={loading ? <CircularProgress size={16} color="inherit" /> : null}
+        startIcon={
+          loading ? <CircularProgress size={16} color="inherit" /> : null
+        }
       >
         {loading ? 'Отправляем...' : 'Отправить заявку'}
       </Button>

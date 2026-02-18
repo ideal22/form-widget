@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import createCache from '@emotion/cache'
 import { CacheProvider } from '@emotion/react'
@@ -20,8 +20,12 @@ export const ShadowWrapper: React.FC<ShadowWrapperProps> = ({
   theme,
 }) => {
   const hostRef = useRef<HTMLDivElement>(null)
-  const [shadowContainer, setShadowContainer] = useState<HTMLDivElement | null>(null)
-  const [emotionCache, setEmotionCache] = useState<ReturnType<typeof createCache> | null>(null)
+  const [shadowContainer, setShadowContainer] = useState<HTMLDivElement | null>(
+    null,
+  )
+  const [emotionCache, setEmotionCache] = useState<ReturnType<
+    typeof createCache
+  > | null>(null)
 
   useEffect(() => {
     if (!hostRef.current) return
@@ -67,7 +71,7 @@ export const ShadowWrapper: React.FC<ShadowWrapperProps> = ({
             {children}
           </ThemeProvider>
         </CacheProvider>,
-        shadowContainer
+        shadowContainer,
       )}
     </div>
   )
